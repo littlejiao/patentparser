@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>专利报告数据.html</title>
+</head>
+<body style="overflow-y: hidden">
+	<div id="patent_result" style="height: 700px; overflow-y: scroll; border: 1px solid #f3f3f3;">
+
+		<p align='center' style='text-align: center'>
+			<b><span
+				style='font-size: 18.0pt; font-family: 宋体; color: windowtext'>专利分析报告</span></b>
+		</p>
+
+
+		<div class="timetrend">
+			<p style="margin-top: 20.0pt; margin-bottom: 20.0pt;">
+				<b><span style="font-family: 宋体;">一、专利申请时间趋势</span></b>
+			</p>
+			<p
+				style="margin-top: 0.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">1.专利申请时间走势</span>
+			</p>
+			<p
+				style="margin-top: 10.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">2.专利技术生命周期</span>
+			</p>
+			<table border='1' cellspacing='0' cellpadding='5'
+				style="font-size: 13px; margin-left: 100px">
+				<tr>
+					<th>年份</th>
+					<th>申请人数量</th>
+					<th>专利申请数量</th>
+				</tr>
+				<tr th:each="lifecycle:${patentrepo.getLifeCycles()}">
+					<td style='text-align: center'><span
+						th:text="${lifecycle.year}"></span></td>
+					<td style='text-align: center'><span
+						th:text="${lifecycle.peopleCounts}"></span></td>
+					<td style='text-align: center'><span
+						th:text="${lifecycle.applicationCounts}"></span></td>
+
+				</tr>
+			</table>
+		</div>
+
+		<div class="country">
+			<p style="margin-top: 20.0pt; margin-bottom: 20.0pt;">
+				<b><span style="font-family: 宋体;">二、专利申请国家地区分布</span></b>
+			</p>
+			<p
+				style="margin-top: 0.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">1.专利最早优先权国家地区分布</span>
+			</p>
+			<table border='1' cellspacing='0' cellpadding='5'
+				style="font-size: 13px; margin-left: 100px">
+				<tr>
+					<th>最早优先权国家</th>
+					<th>数量</th>
+				</tr>
+				<tr th:each="country:${patentrepo.getPriorityCountrys()}">
+					<td style='text-align: center'><span
+						th:text="${country.country}"></span></td>
+					<td style='text-align: center'><span
+						th:text="${country.number}"></span></td>
+				</tr>
+			</table>
+			<p
+				style="margin-top: 10.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">2.专利公开国家地区分布</span>
+			</p>
+		</div>
+
+
+		<div class="applicant">
+			<p style="margin-top: 20.0pt; margin-bottom: 20.0pt;">
+				<b><span style="font-family: 宋体;">三、专利申请人分析</span></b>
+			</p>
+			<p
+				style="margin-top: 0.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">1.主要申请人专利数量分析</span>
+			</p>
+			<p
+				style="margin-top: 10.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">2.主要申请人专利年度趋势</span>
+			</p>
+			<table border='1' cellspacing='0' cellpadding='5'
+				style="font-size: 13px; margin-left: 100px">
+				<tr>
+					<th>主要申请人</th>
+					<th>申请年份</th>
+					<th>专利申请数量</th>
+				</tr>
+				<tr th:each="impoapplicant:${patentrepo.getImpoApplicants()}">
+					<td style='text-align: center'><span
+						th:text="${impoapplicant.applicantName}"></span></td>
+					<td style='text-align: center'>
+						<div th:each="patentyear:${impoapplicant.getPnbyYear()}">
+							<span th:text="${patentyear.year}"></span>
+						</div>
+					</td>
+					<td style='text-align: center'>
+						<div th:each="patentyear:${impoapplicant.getPnbyYear()}">
+							<span th:text="${patentyear.patentCounts}"></span>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<p
+				style="margin-top: 10.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">3.主要申请人专利技术对比趋势</span>
+			</p>
+			<table border='1' cellspacing='0' cellpadding='5'
+				style="font-size: 13px; margin-left: 100px">
+				<tr>
+					<th>主要申请人</th>
+					<th>主要ipc</th>
+				</tr>
+				<tr th:each="impoapplicant:${patentrepo.getImpoApplicants()}">
+					<td style='text-align: center'><span
+						th:text="${impoapplicant.applicantName}"></span></td>
+					<td style='text-align: center'><span
+						th:text="${impoapplicant.ipcNum}"></span></td>
+				</tr>
+			</table>
+		</div>
+
+
+
+		<div class="applicationtech">
+			<p style="margin-top: 20.0pt; margin-bottom: 20.0pt;">
+				<b><span style="font-family: 宋体;">四、专利申请技术构成分析</span></b>
+			</p>
+			<p
+				style="margin-top: 0.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">1.专利IPC分类分析</span>
+			</p>
+			<p
+				style="margin-top: 10.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">2.专利技术时间趋势分析</span>
+			</p>
+			<table border='1' cellspacing='0' cellpadding='5'
+				style="font-size: 13px; margin-left: 100px">
+				<tr>
+					<th>年份</th>
+					<th>主要ipc</th>
+				</tr>
+				<tr th:each="ipc:${patentrepo.getIpcbyYears()}">
+					<td style='text-align: center'><span th:text="${ipc.year}"></span>
+					</td>
+					<td style='text-align: center'><span th:text="${ipc.ipcNum}"></span>
+					</td>
+				</tr>
+			</table>
+			<p
+				style="margin-top: 10.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">3.主题聚类分析</span>
+			</p>
+		</div>
+
+
+
+
+		<div class="lawstatus">
+			<p style="margin-top: 20.0pt; margin-bottom: 20.0pt;">
+				<b><span style="font-family: 宋体;">五、法律状态分析</span></b>
+			</p>
+			<p
+				style="margin-top: 0.0pt; margin-bottom: 10.0pt; text-indent: 50.0pt;">
+				<span style="font-family: 宋体; color: windowtext">1.专利法律状态总体分析</span>
+			</p>
+			<table border='1' cellspacing='0' cellpadding='5'
+				style="font-size: 13px; margin-left: 100px">
+				<tr>
+					<th>专利申请公开数量</th>
+					<th>专利授权数量</th>
+				</tr>
+				<tr th:each="law:${patentrepo.getLawStatus()}">
+					<td style='text-align: center'><span
+						th:text="${law.publicCounts}"></span></td>
+					<td style='text-align: center'><span
+						th:text="${law.authorizationCounts}"></span></td>
+
+				</tr>
+			</table>
+		</div>
+
+
+		<div class="corepatent">
+			<p style="margin-top: 20.0pt; margin-bottom: 20.0pt;">
+				<b><span style="font-family: 宋体;">六、重要核心专利分析</span></b>
+			</p>
+			<table border='1' cellspacing='0' cellpadding='5'
+				style="font-size: 13px; margin-left: 100px">
+				<tr>
+					<th>专利公开号</th>
+					<th>申请人</th>
+					<th>被引频次</th>
+				</tr>
+				<tr th:each="core:${patentrepo.getCorePatents()}">
+					<td style='text-align: center'><span
+						th:text="${core.patentNum}"></span></td>
+					<td style='text-align: center'><span
+						th:text="${core.applicant}"></span></td>
+					<td style='text-align: center'><span
+						th:text="${core.citedCount}"></span></td>
+
+				</tr>
+			</table>
+		</div>
+
+		<div class="chinapatent">
+			<p style="margin-top: 20.0pt; margin-bottom: 20.0pt;">
+				<b><span style="font-family: 宋体;">七、在华专利分析</span></b>
+			</p>
+		</div>
+
+	</div>
+</body>
+
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+
+	window.addEventListener('message',function(e) {
+						
+						if (e.data == "time") {
+							
+							var mainContainer = $('#patent_result'), scrollToContainer = mainContainer
+									.find('.timetrend');
+							console.log(scrollToContainer);
+							//动画效果
+							mainContainer.animate({
+								scrollTop : scrollToContainer.offset().top
+										- mainContainer.offset().top
+										+ mainContainer.scrollTop()
+							}, 1000);
+
+						}
+						if (e.data == "countries") {
+							
+							var mainContainer = $('#patent_result'), scrollToContainer = mainContainer
+									.find('.country');
+							console.log(scrollToContainer);
+							//动画效果
+							mainContainer.animate({
+								scrollTop : scrollToContainer.offset().top
+										- mainContainer.offset().top
+										+ mainContainer.scrollTop()
+							}, 1000);
+						}
+						if (e.data == "proposers") {
+							
+							var mainContainer = $('#patent_result'), scrollToContainer = mainContainer
+									.find('.applicant');
+							console.log(scrollToContainer);
+							//动画效果
+							mainContainer.animate({
+								scrollTop : scrollToContainer.offset().top
+										- mainContainer.offset().top
+										+ mainContainer.scrollTop()
+							}, 1000);
+						}
+						if (e.data == "technologies") {
+							
+							var mainContainer = $('#patent_result'), scrollToContainer = mainContainer
+									.find('.applicationtech');
+							console.log(scrollToContainer);
+							//动画效果
+							mainContainer.animate({
+								scrollTop : scrollToContainer.offset().top
+										- mainContainer.offset().top
+										+ mainContainer.scrollTop()
+							}, 1000);
+						}
+						if (e.data == "laws") {
+							
+							var mainContainer = $('#patent_result'), scrollToContainer = mainContainer
+									.find('.lawstatus');
+							console.log(scrollToContainer);
+							//动画效果
+							mainContainer.animate({
+								scrollTop : scrollToContainer.offset().top
+										- mainContainer.offset().top
+										+ mainContainer.scrollTop()
+							}, 1000);
+						}
+						if (e.data == "corepatent") {
+							
+							var mainContainer = $('#patent_result'), scrollToContainer = mainContainer
+									.find('.corepatent');
+							//动画效果
+							console.log(scrollToContainer);
+							mainContainer.animate({
+								scrollTop : scrollToContainer.offset().top
+										- mainContainer.offset().top
+										+ mainContainer.scrollTop()
+							}, 1000);
+						}
+						if (e.data == "chinapatent") {
+							
+							var mainContainer = $('#patent_result'), scrollToContainer = mainContainer
+									.find('.chinapatent');
+							//动画效果
+							console.log(scrollToContainer);
+							mainContainer.animate({
+								scrollTop : scrollToContainer.offset().top
+										- mainContainer.offset().top
+										+ mainContainer.scrollTop()
+							}, 1000);
+						}
+					})
+</script>
+</html>
